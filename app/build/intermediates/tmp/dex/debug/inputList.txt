@@ -1,0 +1,6 @@
+C:\Users\Bowen\Downloads\sms-demo-master\sms-demo-master\app\build\intermediates\classes\debug
+C:\Users\Bowen\Downloads\sms-demo-master\sms-demo-master\app\build\intermediates\pre-dexed\debug\httpmime-4.2.4-0b251fe7525097e102ed8160c6f18d3aa410b4be.jar
+C:\Users\Bowen\Downloads\sms-demo-master\sms-demo-master\app\build\intermediates\pre-dexed\debug\android-async-http-1.4.6-940a0bca5a0321cd0e076232d7beb280742b0062.jar
+C:\Users\Bowen\Downloads\sms-demo-master\sms-demo-master\app\build\intermediates\pre-dexed\debug\httpcore-4.2.4-e2527ffd32955340e9084028d6aee1050e7b168d.jar
+C:\Users\Bowen\Downloads\sms-demo-master\sms-demo-master\app\build\intermediates\pre-dexed\debug\avoscloud-sdk-v2.7-604cee8e4fedd65e5669a6cbeca5916dff9cf351.jar
+C:\Users\Bowen\Downloads\sms-demo-master\sms-demo-master\app\build\intermediates\pre-dexed\debug\fastjson-1.1.37-leancloud-2be42e6a0e09b0276561ab89d6826d6fb5386c82.jar
