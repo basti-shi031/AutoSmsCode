@@ -1,40 +1,64 @@
-# LeanCloud 中的短信验证示例
+# Android app自动填充短信验证码
 
-见文档 [短信验证码服务](http://leancloud.cn/docs/android_guide.html#短信验证码服务)
+短信验证码使用LeanCloud，具体使用方法 [短信验证码服务](http://leancloud.cn/docs/android_guide.html#短信验证码服务)
 
-[LeanCloud 站点下载地址](http://download.leancloud.cn/demo/)
-
-## 安装
-导入 LeanCloud SDK，
-同时注意 App.java
-```java
-public class App extends Application{
-  public void onCreate() {
-    // 请用你的 AppId，AppKey。并在管理台启用手机号码短信验证
-    AVOSCloud.initialize(this, "",
-        "");
-  }
+## 权限，增加短信读写权限，INTERNET和ACCESS_NETWORK_STATE权限为LeanCloud短信验证码功能所需的权限
+```xml
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS"></uses-permission>
+    <uses-permission android:name="android.permission.READ_SMS"/>
 }
 ```
 
-## 发送验证短信
-
+## BroadcastReceiver
+重写onReceiver函数
 ```java
-AVOSCloud.requestSMSCode(phone, "应用名称", "操作名称", 10);  // 10 分钟内有效
+ Object[] objs = (Object[]) intent.getExtras().get("pdus");
+        for (Object obj : objs) {
+             byte[] pdu = (byte[]) obj;
+             SmsMessage sms = SmsMessage.createFromPdu(pdu);
+             String message = sms.getMessageBody();
+             Log.d("短信内容", "message：" + message);
+
+            //通过正则表达式提取验证码，正则表达式可根据实际短信样式修改
+             Pattern p = Pattern.compile(regex);
+             Matcher matcher  = p.matcher(message);
+             while(matcher.find()){
+                 mMessageListener.onReceived(matcher.group());
+                 break;
 ```
 
-## 判别验证码
-
+回调接口
 ```java
- AVOSCloud.verifySMSCodeInBackground(code, phone, new AVMobilePhoneVerifyCallback() {
+  //回调接口
+    public interface MessageListener {
+        public void onReceived(String message);
+    }
+```
+
+## MainActivity
+注册广播
+```java
+     mAutoSmsBroadcastReceiver = new AutoSmsBroadcastReceiver();
+    //实例化过滤器并设置要过滤的广播
+    IntentFilter intentFilter = new IntentFilter(ACTION);
+    intentFilter.setPriority(Integer.MAX_VALUE);
+    //注册广播
+    this.registerReceiver(mAutoSmsBroadcastReceiver, intentFilter);
+
+    mAutoSmsBroadcastReceiver.setOnReceivedMessageListener(new AutoSmsBroadcastReceiver.MessageListener() {
       @Override
-      public void done(AVException e) {
-        if(e==null){
-          toast(R.string.verifySucceed);
-        }else{
-          e.printStackTrace();
-          toast(R.string.verifyFailed);
-        }
+      public void onReceived(String message) {
+        codeEdit.setText(message);
       }
     });
+```
+反注册广播以免内存泄露
+```java
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    this.unregisterReceiver(mAutoSmsBroadcastReceiver);
+  }
 ```
