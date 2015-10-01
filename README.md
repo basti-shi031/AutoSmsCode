@@ -2,7 +2,8 @@
 
 短信验证码使用LeanCloud，具体使用方法 [短信验证码服务](http://leancloud.cn/docs/android_guide.html#短信验证码服务)
 
-## 权限，增加短信读写权限，INTERNET和ACCESS_NETWORK_STATE权限为LeanCloud短信验证码功能所需的权限
+## 权限
+增加短信读写权限，INTERNET和ACCESS_NETWORK_STATE权限为LeanCloud短信验证码功能所需的权限
 ```xml
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
